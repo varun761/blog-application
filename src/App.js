@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -14,13 +14,14 @@ import DashboardScreen from "./screens/dashboard-screen";
 
 function App() {
   const [user, setUser] = useState(null)
-  const setLoggedInUser = (value) => {
-    setUser(value)
-  }
+  useEffect(() => {
+    if (localStorage.getItem('user')) {
+      setUser(localStorage.getItem('user'))
+    }
+  }, [localStorage.getItem('user')])
   return (
     <AppContext.Provider value={{
-      user,
-      setLoggedInUser
+      user
     }}>
       <Router>
         <Routes>

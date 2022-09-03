@@ -1,11 +1,8 @@
-import { Container } from "react-bootstrap"
-import NavigationBar from "../../components/navigation-bar"
+import BaseLayout from "../../layouts/basic-layout"
 
 const DashboardScreen = () => {
     return (
-        <Container fluid>
-            <NavigationBar/>
-        </Container>
+        <BaseLayout/>
     )
 }
 

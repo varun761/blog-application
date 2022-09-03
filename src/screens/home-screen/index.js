@@ -1,15 +1,8 @@
-import { Container, Row, Col } from "react-bootstrap"
-import NavigationBar from "../../components/navigation-bar"
+import BaseLayout from "../../layouts/basic-layout"
 
 const HomeScreen = () => {
     return (
-        <Container fluid className="navbar-content">
-            <Row>
-                <Col>
-                    <NavigationBar/>
-                </Col>
-            </Row>
-        </Container>
+        <BaseLayout/>
     )
 }
 

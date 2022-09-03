@@ -1,21 +1,28 @@
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Button, Col, Container, Form, Row } from "react-bootstrap"
-import { Link, useLocation } from "react-router-dom";
+import { Button, Col, Container, Form, Row, Alert } from "react-bootstrap"
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 
 import './index.scss'
 import ErrorMessage from "../../components/error-message";
 import { useEffect } from "react";
+import ApiService from "../../services/api-service";
+import AppContext from "../../context/app-context";
 
 const schema = yup.object({
-    email: yup.string().email('Please enter valid email address').required('Email is required'),
-    password: yup.string().required('Password is required')
+    email: yup.string().nullable().email('Please enter valid email address').required('Email is required'),
+    password: yup.string().nullable().required('Password is required')
 });
 
 const LoginScreen = () => {
     const location = useLocation()
-    console.log(location)
+    const navigate = useNavigate()
+    const appContext = useContext(AppContext)
+    console.log('appContext ::: ', appContext)
+    const [apiError, setApiError] = useState(null)
+    const [loading, setLoading] = useState(false)
     const inputClass = "px-3 py-2 bg-transparent"
     const { register, handleSubmit, formState:{ errors }, reset } = useForm({
         resolver: yupResolver(schema),
@@ -25,13 +32,37 @@ const LoginScreen = () => {
         }
     });
     useEffect(() => {
-        setTimeout(() => {
-            reset()
-        }, 1000)
-    }, [])
+        if (appContext?.user) {
+            navigate('/dashboard')
+        }
+    }, [appContext])
+    useEffect(() => {
+        if (apiError) {
+            setTimeout(() => {
+                setApiError(null)
+            }, 5000)
+        }
+    }, [apiError])
     const handleSignup = (values) => {
-        console.log('values ::: ', values)
-        reset()
+        setLoading(true)
+        ApiService.postRequest('/v1/auth', values)
+        .then((res) => {
+            const response = res.data || null
+            if (response) {
+                localStorage.setItem('user', JSON.stringify(response))
+                setTimeout(() => {
+                    navigate('/dashboard')
+                }, 3000)
+            }
+        })
+        .catch((err) => {
+            const errMessage = err?.response?.data?.message ? err.response.data.message : err.message
+            setApiError(errMessage)
+        })
+        .finally(() => {
+            setLoading(false)
+        })
+        // reset()
     }
     return (
         <Container fluid>
@@ -45,21 +76,28 @@ const LoginScreen = () => {
                             <p>Welcome back</p>
                         </Col>
                     </Row>
+                    {apiError && (
+                        <Row>
+                            <Col>
+                                <Alert className="py-2" variant='danger'>{apiError}</Alert>
+                            </Col>
+                        </Row>
+                    )}
                     <Row>
                         <Col>
                             <Form onSubmit={handleSubmit(handleSignup)}>
                                 <Form.Group className="mb-3" controlId="email">
                                     <Form.Label>Email</Form.Label>
-                                    <Form.Control className={inputClass} type="email" placeholder="Enter your email address" {...register('email')}/>
+                                    <Form.Control className={inputClass} type="email" placeholder="Enter your email address" {...register('email')} disabled={loading}/>
                                     {errors?.email?.message && <ErrorMessage text={errors.email.message}/>}
                                 </Form.Group>
                                 <Form.Group className="mb-4" controlId="password">
                                     <Form.Label>Password</Form.Label>
-                                    <Form.Control className={inputClass} type="password" placeholder="Enter your password" {...register('password')}/>
+                                    <Form.Control className={inputClass} type="password" placeholder="Enter your password" {...register('password')} disabled={loading}/>
                                     {errors?.password?.message && <ErrorMessage text={errors.password.message}/>}
                                 </Form.Group>
                                 <Form.Group>
-                                    <Button className="w-100 fw-semibold" variant="primary" type="submit">Login</Button>
+                                    <Button className="w-100 fw-semibold" variant="primary" type="submit" disabled={loading}>Login</Button>
                                 </Form.Group>
                             </Form>
                         </Col>

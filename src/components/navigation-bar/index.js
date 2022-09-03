@@ -1,11 +1,15 @@
-import { Container, Navbar, Nav, Image } from "react-bootstrap"
-import './index.scss'
+import { Container, Navbar, Nav, Image } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import "./index.scss";
 
-const NavigationBar = ({
-    isAuth
-}) => {
+const NavigationBar = ({ isAuth }) => {
+  const navigate = useNavigate();
+  const logoutUser = () => {
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
   return (
-    <Navbar>
+    <Navbar className="navbar-content">
       <Container fluid>
         <Navbar.Brand href="#home">
           <Image src="/bloggerlogo.png" />
@@ -20,12 +24,14 @@ const NavigationBar = ({
           </Nav>
           <Nav>
             {!isAuth ? (
-                <>
-                    <Nav.Link href="/login">Login</Nav.Link>
-                    <Nav.Link href="/signup">Signup</Nav.Link>
-                </>
+              <>
+                <Nav.Link href="/login">Login</Nav.Link>
+                <Nav.Link href="/signup">Signup</Nav.Link>
+              </>
             ) : (
-                <Nav.Link href="/signup">Logout</Nav.Link>
+              <Nav.Link href="javascript:void(0)" onClick={logoutUser}>
+                Logout
+              </Nav.Link>
             )}
           </Nav>
         </Navbar.Collapse>
@@ -35,7 +41,7 @@ const NavigationBar = ({
 };
 
 NavigationBar.defaultProps = {
-    isAuth: false
-}
+  isAuth: false,
+};
 
-export default NavigationBar
+export default NavigationBar;
