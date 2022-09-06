@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -13,15 +13,22 @@ import HomeScreen from "./screens/home-screen";
 import DashboardScreen from "./screens/dashboard-screen";
 
 function App() {
+  // const user = localStorage.getItem('user') || null
   const [user, setUser] = useState(null)
+  const currentUser = useMemo(() => user, [user])
+  const setCurrentUser = (value) => {
+    localStorage.setItem('user', value && value !== 'null' ? JSON.stringify(value) : null)
+    setUser(value)
+  }
   useEffect(() => {
-    if (localStorage.getItem('user')) {
-      setUser(localStorage.getItem('user'))
+    if (!user && localStorage.getItem('user')) {
+      setUser(JSON.parse(localStorage.getItem('user')))
     }
-  }, [localStorage.getItem('user')])
+  }, [user])
   return (
     <AppContext.Provider value={{
-      user
+      user: currentUser,
+      setCurrentUser
     }}>
       <Router>
         <Routes>

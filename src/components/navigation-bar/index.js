@@ -1,11 +1,14 @@
+import { useContext } from 'react'
 import { Container, Navbar, Nav, Image } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import AppContext from "../../context/app-context";
 import "./index.scss";
 
 const NavigationBar = ({ isAuth }) => {
+  const appContext = useContext(AppContext)
   const navigate = useNavigate();
   const logoutUser = () => {
-    localStorage.removeItem("user");
+    appContext.setCurrentUser(null)
     navigate("/login");
   };
   return (

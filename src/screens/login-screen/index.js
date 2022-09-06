@@ -49,7 +49,8 @@ const LoginScreen = () => {
         .then((res) => {
             const response = res.data || null
             if (response) {
-                localStorage.setItem('user', JSON.stringify(response))
+                appContext.setCurrentUser(response)
+                // localStorage.setItem('user', JSON.stringify(response))
                 setTimeout(() => {
                     navigate('/dashboard')
                 }, 3000)

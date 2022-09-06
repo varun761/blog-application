@@ -7,7 +7,6 @@ const BaseLayout = (props) => {
     const appContext = useContext(AppContext)
     return (
         <>
-            {appContext ? JSON.stringify(appContext) : null}
             <NavigationBar isAuth={appContext?.user}/>
             {props.children}
         </>
