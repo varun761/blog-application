@@ -64,7 +64,7 @@ const SignupScreen = () => {
         if (appContext?.user) {
             navigate('/dashboard')
         }
-    }, [appContext])
+    }, [appContext, navigate])
     return (
         <Container fluid>
             <Row>

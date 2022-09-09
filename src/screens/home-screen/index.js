@@ -1,8 +1,11 @@
 import { useState, useEffect, useMemo } from "react"
-import { Row, Col, Spinner, Container, Card, Button } from "react-bootstrap"
+import { Row, Col, Spinner, Container, Card, Image } from "react-bootstrap"
+import { Link } from "react-router-dom"
+import NoImagePost from "../../assets/images/post_sample.jpg"
 import Common from "../../utilities/common-util"
-import BaseLayout from "../../layouts/basic-layout"
+import BasicLayout from "../../layouts/basic-layout"
 import ApiService from "../../services/api-service"
+import "./index.scss"
 
 const LoadingBlogPosts = () => {
     const [error, setError] = useState(null)
@@ -41,10 +44,10 @@ const HomeScreen = () => {
     const [itemPerPage, setItemsPerPage] = useState(10)
     useEffect(() => {
         getAllPosts(skip, itemPerPage)
-    }, [])
+    }, [skip, itemPerPage])
     
     return (
-        <BaseLayout>
+        <BasicLayout>
             <Container fluid>
                 {loading && (
                     <Row className="my-5">
@@ -56,28 +59,45 @@ const HomeScreen = () => {
                 {!loading && data.length === 0 && (
                     <Row className="my-5">
                         <Col className="text-center">
-                            <p>No More Posts</p>
+                            <p className="mb-0">No More Posts</p>
                         </Col>
                     </Row>
                 )}
                 {
                     !loading && data.length > 0 && (
-                        <Row className="my-3">
+                        <Row className="mt-5">
                             {data.map((el) => {
                                 let postedTime = Common.dateDifference(el.created_at)
                                 return (
-                                <Col key={`post_${el._id}`} sm={4} className="mb-4">
+                                <Col key={`post_${el._id}`} sm={4} className="blog-card">
                                     <Card>
                                         <Card.Body>
-                                            <Card.Title>{el.title}</Card.Title>
+                                            <Row>
+                                                <Col>
+                                                    <div className="card-img">
+                                                        <Image src={NoImagePost} fluid/>
+                                                    </div>
+                                                </Col>
+                                            </Row>
+                                            <Card.Title className="my-3">
+                                                <Link to={`/post/${el._id}`}>{el.title}</Link>
+                                            </Card.Title>
                                             <Card.Text>
-                                                <p className="mb-0">Posted By: {el?.author?.name}</p>
-                                                <p className="mb-0">Posted At: {postedTime}</p>
-                                                <p className="mb-0">Liked By: 11</p>
-                                                <p className="mb-0">Viewed By: 20</p>
+                                                <Row>
+                                                    <Col>
+                                                        <p className="post-description mb-3">{el?.description}</p>
+                                                    </Col>
+                                                </Row>
+                                                <Row>
+                                                    <Col>
+                                                        <ul className="post-info">
+                                                            <li>{el?.author?.name}</li>
+                                                            <li className="dot">.</li>
+                                                            <li>{postedTime}</li>
+                                                        </ul>
+                                                    </Col>
+                                                </Row>
                                             </Card.Text>
-
-                                            <Button variant="primary">Read More</Button>
                                         </Card.Body>
                                     </Card>
                                 </Col>
@@ -86,7 +106,7 @@ const HomeScreen = () => {
                     )
                 }
             </Container>
-        </BaseLayout>
+        </BasicLayout>
     )
 }
 

@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, lazy } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -11,6 +11,7 @@ import './App.scss';
 import LoginScreen from "./screens/login-screen";
 import HomeScreen from "./screens/home-screen";
 import DashboardScreen from "./screens/dashboard-screen";
+const PostScreen = lazy(() => import("./screens/post-screen"));
 
 function App() {
   // const user = localStorage.getItem('user') || null
@@ -34,6 +35,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<HomeScreen/>}/>
           <Route exact path="/dashboard" element={<DashboardScreen/>}/>
+          <Route exact path="/posts" element={<PostScreen/>}/>
           <Route exact path="/login" element={<LoginScreen/>}/>
           <Route exact path="/signup" element={<SignupScreen/>}/>
         </Routes>

@@ -4,9 +4,9 @@ class ApiService {
     static postRequest(url, data, headers = null) {
         const postArgs = {
             method: 'POST',
-            url,
-            data
+            url
         }
+        if (data) postArgs.data = data
         if (headers) postArgs.headers = headers
         return axios(postArgs)
     }
