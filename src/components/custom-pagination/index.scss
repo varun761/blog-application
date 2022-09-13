@@ -1,0 +1,30 @@
+ul{
+    &.page-list {
+        list-style: none;
+        padding: 0;
+        display: inline-flex;
+        justify-content: center;
+        width: 100%;
+        li {
+            margin-right: 5px;
+            &:last-child {
+                margin-right: 0;
+            }
+            .btn {
+                border: 1px solid #858383;
+                padding: 5px 13px;
+                border-radius: 25px;
+                &.page_btn {
+                    width: 37px;
+                    height: 37px;
+                    &:disabled {
+                        background-color: #000;
+                        border-color: #000;
+                        color: #fff;
+                        opacity: 1;
+                    }
+                }
+            }
+        }
+    }
+}

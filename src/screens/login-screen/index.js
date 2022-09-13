@@ -20,7 +20,6 @@ const LoginScreen = () => {
     const location = useLocation()
     const navigate = useNavigate()
     const appContext = useContext(AppContext)
-    console.log('appContext ::: ', appContext)
     const [apiError, setApiError] = useState(null)
     const [loading, setLoading] = useState(false)
     const inputClass = "px-3 py-2 bg-transparent"

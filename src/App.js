@@ -6,12 +6,14 @@ import {
 } from "react-router-dom";
 
 import AppContext from "./context/app-context";
-import SignupScreen from "./screens/signup-screen";
 import './App.scss';
-import LoginScreen from "./screens/login-screen";
-import HomeScreen from "./screens/home-screen";
-import DashboardScreen from "./screens/dashboard-screen";
+
+const SignupScreen = lazy(() => import("./screens/signup-screen"));
+const LoginScreen = lazy(() => import("./screens/login-screen"));
+const HomeScreen = lazy(() => import("./screens/home-screen"));
+const DashboardScreen = lazy(() => import("./screens/dashboard-screen"));
 const PostScreen = lazy(() => import("./screens/post-screen"));
+const PostDetailsScreen = lazy(() => import("./screens/post-details-screen"));
 
 function App() {
   // const user = localStorage.getItem('user') || null
@@ -34,6 +36,7 @@ function App() {
       <Router>
         <Routes>
           <Route exact path="/" element={<HomeScreen/>}/>
+          <Route path="/post/:id" element={<PostDetailsScreen/>}/>
           <Route exact path="/dashboard" element={<DashboardScreen/>}/>
           <Route exact path="/posts" element={<PostScreen/>}/>
           <Route exact path="/login" element={<LoginScreen/>}/>
