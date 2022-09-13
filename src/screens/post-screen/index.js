@@ -78,7 +78,7 @@ const LoadingIndividualBlogPosts = () => {
         if (errMessage === "jwt expired") {
           handleRefreshToken(
             userInfo?.refreshToken,
-            handleChangeVisibility(postId, visibility, skip, limit)
+            () => handleChangeVisibility(postId, visibility, skip, limit)
           );
         } else {
           setError(errMessage);
@@ -110,7 +110,7 @@ const LoadingIndividualBlogPosts = () => {
           ? err.response.data.message
           : err.message;
         if (errMessage === "jwt expired") {
-          handleRefreshToken(userInfo?.refreshToken, getAllPosts(skip, limit));
+          handleRefreshToken(userInfo?.refreshToken, () => getAllPosts(skip, limit));
         } else {
           setError(errMessage);
         }
