@@ -4,9 +4,18 @@ import "./index.scss";
 const CustomPagination = ({ total, itemPerPage, onPageClick, activePage }) => {
   const totalPages = Math.ceil(total / itemPerPage);
   const pageItems = [];
-  for (let i = 1; i <= totalPages; i++) {
+  let nextPages = activePage + 3
+  let initialValue = activePage
+  if (nextPages > totalPages) nextPages = totalPages - 3
+  if (nextPages <= 0) nextPages = totalPages 
+  let currentDiff = totalPages - initialValue
+  if (currentDiff < 3) initialValue = totalPages - 3
+  if (nextPages === initialValue) nextPages = totalPages
+  if (initialValue < 0) initialValue = 1
+  for (let i = initialValue; i <= nextPages; i++) {
     pageItems.push(i);
   }
+  if (pageItems.length === 0) return null
   return (
     <ul className="page-list">
       {pageItems.length > 0}
