@@ -17,9 +17,8 @@ import AppContext from "../../context/app-context";
 import { useNavigate } from "react-router-dom";
 import CustomPagination from "../../components/custom-pagination";
 
-const LoadingIndividualBlogPosts = () => {
+const LoadingIndividualBlogPosts = (navigate) => {
   const appContext = useContext(AppContext);
-  const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [apiData, setApiData] = useState([]);
   const data = useMemo(() => apiData, [apiData]);
@@ -128,8 +127,9 @@ const LoadingIndividualBlogPosts = () => {
 };
 
 const PostScreen = () => {
+  const navigator = useNavigate();
   const { error, data, loading, getAllPosts, handleChangeVisibility } =
-    LoadingIndividualBlogPosts();
+    LoadingIndividualBlogPosts(navigator);
   const [allChecked, setAllChecked] = useState(false);
   const [allSelectedId, setAllSelectedId] = useState([]);
   const [skip, setSkip] = useState(0);
@@ -176,6 +176,9 @@ const PostScreen = () => {
     getAllPosts(skipValue, itemPerPage)
     setCurrentPage(value)
   }
+  const handleCreatePost = () => {
+    navigator('/post-new')
+  }
   return (
     <DashboardLayout>
       <div className="blog-post">
@@ -186,7 +189,7 @@ const PostScreen = () => {
         </Row>
         <Row className="mb-3">
           <Col>
-            <Button variant="primary">Create New</Button>
+            <Button variant="primary" onClick={() => handleCreatePost()} disabled={loading}>Create New</Button>
           </Col>
           {allSelectedId.length > 0 && (
             <Col className="text-end">

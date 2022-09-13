@@ -6,7 +6,7 @@ const DashboardCards = ({ variant, textVariant, cardHeading, cardText }) => (
     <Card.Body>
       <Card.Title>{cardHeading}</Card.Title>
       <Card.Text>
-        <h4>{cardText}</h4>
+        {cardText}
       </Card.Text>
     </Card.Body>
   </Card>
