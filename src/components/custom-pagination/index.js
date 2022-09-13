@@ -12,7 +12,7 @@ const CustomPagination = ({ total, itemPerPage, onPageClick, activePage }) => {
       {pageItems.length > 0}
       <li>
         <Button
-          disabled={pageItems.length <= 1 || pageItems.length === activePage}
+          disabled={pageItems.length <= 1 || activePage === 1}
           onClick={() => onPageClick(activePage - 1)}
         >
           Prev
