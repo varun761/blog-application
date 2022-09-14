@@ -14,22 +14,20 @@ const NavigationBar = ({ isAuth }) => {
   return (
     <Navbar className="navbar-content px-3 py-2" fixed="top" expand="lg">
       <Container fluid>
-        <Navbar.Brand href="#home">
+        <Navbar.Brand href="/">
           <Image src="/bloggerlogo.png" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="main-nav" />
         <Navbar.Collapse id="main-nav">
           <Nav className="mx-auto">
             <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="#pricing">Categories</Nav.Link>
-            <Nav.Link href="#pricing">Contact Us</Nav.Link>
           </Nav>
           <Nav>
-            {!isAuth && (<Nav.Link href="#deets">Login</Nav.Link>)}
+            {!isAuth && (<Nav.Link href="/login">Login</Nav.Link>)}
             {isAuth && (
               <>
                 <NavDropdown title="Accounts" id="collasible-nav-dropdown">
-                  <NavDropdown.Item href="#deets">My Profile</NavDropdown.Item>
+                  <NavDropdown.Item href="/profile">My Profile</NavDropdown.Item>
                   <NavDropdown.Item onClick={logoutUser}>Logout</NavDropdown.Item>
                 </NavDropdown>
                 <Nav.Link href="/dashboard">Dashboard</Nav.Link>

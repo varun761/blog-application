@@ -12,13 +12,19 @@
     -webkit-transition: all 0.5s ease-in-out;
     transition: all 0.5s ease-in-out;
     a {
-        font-weight: 600;
+        font-weight: 300;
         font-size: 16px;
         padding: 15px;
         border-bottom: 1px solid #000;
         color: #000;
         &:hover {
             color: #f67280;
+        }
+        &.active {
+            color: #f67280;
+        }
+        &:last-child {
+            border-bottom: none;
         }
     }
     @media screen and (max-width: 767px) {

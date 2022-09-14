@@ -136,6 +136,7 @@ const PostScreen = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [itemPerPage, setItemsPerPage] = useState(10);
   useEffect(() => {
+    setCurrentPage(1)
     getAllPosts(skip, itemPerPage);
   }, []);
   useEffect(() => {
@@ -169,15 +170,16 @@ const PostScreen = () => {
     }
   };
   const changeVisibilityHandler = (visibility) => {
-    handleChangeVisibility(allSelectedId, visibility, 0, itemPerPage);
+    handleChangeVisibility(allSelectedId, visibility, skip, itemPerPage);
   };
   const handleBlogPagination = (value) => {
     const skipValue = (value > 0 ? ((value - 1) * itemPerPage) : 0)
+    setSkip(skipValue)
     getAllPosts(skipValue, itemPerPage)
     setCurrentPage(value)
   }
   const handleCreatePost = () => {
-    navigator('/post-new')
+    navigator('/posts/create')
   }
   return (
     <DashboardLayout>
@@ -211,13 +213,14 @@ const PostScreen = () => {
         )}
         <Row>
           <Col>
-            <Table striped bordered hover>
+            <Table striped bordered>
               <thead>
                 <tr>
                   <th>
                     <Form.Check
                       type="checkbox"
                       onChange={handleAllChecked}
+                      disabled={!loading && (!data?.posts || data?.posts?.length === 0)}
                       checked={allChecked || false}
                     />
                   </th>
@@ -236,7 +239,7 @@ const PostScreen = () => {
                     </td>
                   </tr>
                 )}
-                {!loading && data?.posts?.length === 0 && (
+                {!loading && (!data?.posts || data?.posts?.length === 0) && (
                   <tr>
                     <td colSpan="6" className="text-center">
                       No posts
@@ -279,6 +282,28 @@ const PostScreen = () => {
               </tbody>
             </Table>
           </Col>
+            <Row>
+              {!loading && data?.total && (
+                <Col>
+                  <p>{currentPage * itemPerPage < data?.total ? (currentPage * itemPerPage) : data?.total} - {data?.total} records</p>
+                </Col>
+              )}
+              <Col xs={6} md={4}>
+                <Row>
+                  <Col xs={12} md={8} className="text-end"><label>Items per page :</label></Col>
+                  <Col className="text-end">
+                    <select>
+                      <option>10</option>
+                      <option>25</option>
+                      <option>50</option>
+                      <option>100</option>
+                      <option>150</option>
+                      <option>200</option>
+                    </select>
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
           {!loading && data?.total && data.total > 0 && (
             <Row>
               <Col>

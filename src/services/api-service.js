@@ -1,49 +1,62 @@
 import axios from 'axios'
 
-class ApiService {
-    static postRequest(url, data, headers = null) {
+class ApiServiceClass {
+    constructor() {
+        this.controller = new AbortController()
+    }
+    cancelApiRequest () {
+        this.controller.abort()
+    }
+    postRequest(url, data, headers = null) {
         const postArgs = {
             method: 'POST',
-            url
+            url,
+            signal: this.controller.signal
         }
         if (data) postArgs.data = data
         if (headers) postArgs.headers = headers
         return axios(postArgs)
     }
-    static getRequest(url, headers = null) {
+    getRequest(url, headers = null) {
         const postArgs = {
             method: 'GET',
-            url
+            url,
+            signal: this.controller.signal
         }
         if (headers) postArgs.headers = headers
         return axios(postArgs)
     }
-    static deleteRequest(url, headers = null) {
+    deleteRequest(url, headers = null) {
         const postArgs = {
             method: 'DELETE',
-            url
+            url,
+            signal: this.controller.signal
         }
         if (headers) postArgs.headers = headers
         return axios(postArgs)
     }
-    static putRequest(url, data, headers = null) {
+    putRequest(url, data, headers = null) {
         const postArgs = {
             method: 'PUT',
             data,
-            url
+            url,
+            signal: this.controller.signal
         }
         if (headers) postArgs.headers = headers
         return axios(postArgs)
     }
-    static patchRequest(url, data, headers = null) {
+    patchRequest(url, data, headers = null) {
         const postArgs = {
             method: 'PATCH',
             data,
-            url
+            url,
+            signal: this.controller.signal
         }
         if (headers) postArgs.headers = headers
         return axios(postArgs)
     }
 }
+
+const ApiService = new ApiServiceClass()
 
 export default ApiService

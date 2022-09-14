@@ -16,6 +16,8 @@ const DashboardLayout = (props) => {
                             <Nav defaultActiveKey="/dashboard" className="flex-column">
                                 <Nav.Link href="/dashboard">Overview</Nav.Link>
                                 <Nav.Link href="/posts">Posts</Nav.Link>
+                                <Nav.Link href="/categories">Categories</Nav.Link>
+                                <Nav.Link href="/sharing">Sharing</Nav.Link>
                                 <Nav.Link href="/profile">Profile</Nav.Link>
                             </Nav>
                         </Col>

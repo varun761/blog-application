@@ -26,13 +26,13 @@ const DashboardScreen = () => {
         </Col>
       </Row>
       <Row>
-        <Col>
+        <Col xs={12} md={4}>
           <DashboardCards variant="success" cardHeading="Total Posts" cardText="0" textVariant="white"/>
         </Col>
-        <Col>
+        <Col xs={12} md={4}>
           <DashboardCards variant="warning" cardHeading="Total Published Posts" cardText="0" textVariant="white"/>
         </Col>
-        <Col>
+        <Col xs={12} md={4}>
           <DashboardCards variant="info" cardHeading="Total Private Posts" cardText="0" textVariant="white"/>
         </Col>
       </Row>

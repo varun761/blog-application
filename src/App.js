@@ -40,11 +40,11 @@ function App() {
           <Routes>
             <Route exact path="/" element={<HomeScreen/>}/>
             <Route path="/post/:id" element={<PostDetailsScreen/>}/>
-            <Route exact path="/dashboard" element={<DashboardScreen/>}/>
-            <Route exact path="/posts" element={<PostScreen/>}/>
-            <Route path="/post-new" element={<PostCreateScreen/>}/>
-            <Route exact path="/login" element={<LoginScreen/>}/>
-            <Route exact path="/signup" element={<SignupScreen/>}/>
+            <Route exact path="dashboard" element={<DashboardScreen/>}/>
+            <Route exact path="posts" element={<PostScreen/>}/>
+            <Route path="posts/create" element={<PostCreateScreen/>}/>
+            <Route exact path="login" element={<LoginScreen/>}/>
+            <Route exact path="signup" element={<SignupScreen/>}/>
           </Routes>
         </Router>
       </AppContext.Provider>
