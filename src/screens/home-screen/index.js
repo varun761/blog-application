@@ -6,6 +6,7 @@ import Common from "../../utilities/common-util";
 import BasicLayout from "../../layouts/basic-layout";
 import ApiService from "../../services/api-service";
 import "./index.scss";
+import PostInfo from "../../components/post-info";
 
 const LoadingBlogPosts = () => {
   const [error, setError] = useState(null);
@@ -87,11 +88,13 @@ const HomeScreen = () => {
                       </Card.Text>
                       <Row>
                         <Col>
-                          <ul className="post-info">
-                            <li>{el?.author?.name}</li>
-                            <li className="dot">.</li>
-                            <li>{postedTime}</li>
-                          </ul>
+                          <PostInfo list={
+                            [
+                              el?.author?.name,
+                              postedTime,
+                              `Likes: ${el?.likes_count}`
+                            ]
+                          }/>
                         </Col>
                       </Row>
                     </Card.Body>

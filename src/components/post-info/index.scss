@@ -1,0 +1,17 @@
+.post-info {
+    padding: 0;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    li {
+        font-weight: 300;
+        font-size: 14px;
+        &.dot {
+            margin: 2px 15px;
+            width: 4px;
+            height: 4px;
+            background-color: #f67280;
+            border-radius: 50%;
+        }
+    }
+}
