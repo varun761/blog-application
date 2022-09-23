@@ -2,7 +2,7 @@
   "name": "blog",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://blog-api-node-application.herokuapp.com",
+  "proxy": "http://localhost:3001",
   "dependencies": {
     "@hookform/resolvers": "^2.9.7",
     "@testing-library/jest-dom": "^5.16.5",
