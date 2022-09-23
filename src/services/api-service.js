@@ -7,10 +7,13 @@ class ApiServiceClass {
     cancelApiRequest () {
         this.controller.abort()
     }
+    generateApiUrl (url) {
+        return `${process.env.REACT_APP_API_BASE}${url}`
+    }
     postRequest(url, data, headers = null) {
         const postArgs = {
             method: 'POST',
-            url,
+            url: this.generateApiUrl(url),
             signal: this.controller.signal
         }
         if (data) postArgs.data = data
@@ -20,7 +23,7 @@ class ApiServiceClass {
     getRequest(url, headers = null) {
         const postArgs = {
             method: 'GET',
-            url,
+            url: this.generateApiUrl(url),
             signal: this.controller.signal
         }
         if (headers) postArgs.headers = headers
@@ -29,7 +32,7 @@ class ApiServiceClass {
     deleteRequest(url, headers = null) {
         const postArgs = {
             method: 'DELETE',
-            url,
+            url: this.generateApiUrl(url),
             signal: this.controller.signal
         }
         if (headers) postArgs.headers = headers
@@ -39,7 +42,7 @@ class ApiServiceClass {
         const postArgs = {
             method: 'PUT',
             data,
-            url,
+            url: this.generateApiUrl(url),
             signal: this.controller.signal
         }
         if (headers) postArgs.headers = headers
@@ -49,7 +52,7 @@ class ApiServiceClass {
         const postArgs = {
             method: 'PATCH',
             data,
-            url,
+            url: this.generateApiUrl(url),
             signal: this.controller.signal
         }
         if (headers) postArgs.headers = headers
