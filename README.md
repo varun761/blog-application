@@ -5,3 +5,5 @@
 A react blog application with authetication.
 
 Currently in development mode.
+
+Development Url: https://animated-maamoul-a46639.netlify.app
