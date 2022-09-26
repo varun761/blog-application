@@ -13,9 +13,9 @@ const SignupScreen = lazy(() => import("./screens/signup-screen"));
 const LoginScreen = lazy(() => import("./screens/login-screen"));
 const HomeScreen = lazy(() => import("./screens/home-screen"));
 const DashboardScreen = lazy(() => import("./screens/dashboard-screen"));
-const PostScreen = lazy(() => import("./screens/post-screen"));
-const PostCreateScreen = lazy(() => import("./screens/post-create-screen"));
-const PostDetailsScreen = lazy(() => import("./screens/post-details-screen"));
+const PostScreen = lazy(() => import("./screens/post"));
+const PostCreateScreen = lazy(() => import("./screens/post/create-screen"));
+const PostDetailsScreen = lazy(() => import("./screens/post/details-screen"));
 
 function App() {
   // const user = localStorage.getItem('user') || null

@@ -1,6 +1,6 @@
 import { Container, Row, Col, Button, Card } from "react-bootstrap";
-import PostInfo from "../../components/post-info";
-import BasicLayout from "../../layouts/basic-layout";
+import PostInfo from "../../../components/post-info";
+import BasicLayout from "../../../layouts/basic-layout";
 const SideBarTitle = ({ title }) => {
   return (
     <Row className="mb-4">

@@ -1,0 +1,16 @@
+.post-content-editor {
+    min-height: 350px;
+    padding: 10px;
+    background: #fff;
+    border: 1px solid #000;
+}
+.photo-frame {
+    border: 1px dotted #000;
+    max-height: 200px;
+    overflow: hidden;
+    margin-bottom: 15px;
+    display: flex;
+    img {
+        cursor: pointer;
+    }
+}
