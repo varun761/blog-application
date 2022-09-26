@@ -14,7 +14,7 @@ const PostInfo = ({ list }) => {
             </>
           );
         }
-        return <li>{el}</li>;
+        return <li key={`post_info_${indexed}`}>{el}</li>;
       })}
     </ul>
   );
