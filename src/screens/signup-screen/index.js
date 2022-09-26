@@ -3,7 +3,8 @@ import { useForm } from "react-hook-form";
 import { Button, Col, Container, Form, Row, Alert } from "react-bootstrap";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { ArrowLeft } from 'react-bootstrap-icons';
 import moment from 'moment'
 
 import './index.scss';
@@ -71,6 +72,11 @@ const SignupScreen = () => {
                 <Col className="py-4 image-bg d-none d-sm-block" xs={12} sm={6}>
                 </Col>
                 <Col className="signup-container py-4 px-5" xs={12} sm={6}>
+                    <Row className="mb-3">
+                        <Col>
+                            <NavLink to="/" className="text-decoration-none" aria-label="Back to home"><ArrowLeft/> Back to home</NavLink>
+                        </Col>
+                    </Row>
                     <Row className="mb-3">
                         <Col>
                             <h3>Signup</h3>

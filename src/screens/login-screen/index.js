@@ -1,7 +1,8 @@
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Col, Container, Form, Row, Alert } from "react-bootstrap"
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { ArrowLeft } from 'react-bootstrap-icons';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 
@@ -35,15 +36,16 @@ const LoginScreen = () => {
             navigate('/dashboard')
         }
     }, [appContext])
-    useEffect(() => {
-        if (apiError) {
-            setTimeout(() => {
-                setApiError(null)
-            }, 5000)
-        }
-    }, [apiError])
-    const handleSignup = (values) => {
+    // useEffect(() => {
+    //     if (apiError) {
+    //         setTimeout(() => {
+    //             setApiError(null)
+    //         }, 5000)
+    //     }
+    // }, [apiError])
+    const handleSignIn = (values) => {
         setLoading(true)
+        setApiError(null)
         ApiService.postRequest('/v1/auth', values)
         .then((res) => {
             const response = res.data || null
@@ -72,6 +74,11 @@ const LoginScreen = () => {
                 <Col className="signup-container py-4 px-5" xs={12} sm={6}>
                     <Row className="mb-3">
                         <Col>
+                            <NavLink to="/" className="text-decoration-none" aria-label="Back to home"><ArrowLeft/> Back to home</NavLink>
+                        </Col>
+                    </Row>
+                    <Row className="mb-3">
+                        <Col>
                             <h3>Login</h3>
                             <p>Welcome back</p>
                         </Col>
@@ -85,19 +92,19 @@ const LoginScreen = () => {
                     )}
                     <Row>
                         <Col>
-                            <Form onSubmit={handleSubmit(handleSignup)}>
+                            <Form onSubmit={handleSubmit(handleSignIn)}>
                                 <Form.Group className="mb-3" controlId="email">
-                                    <Form.Label>Email</Form.Label>
-                                    <Form.Control className={inputClass} type="email" placeholder="Enter your email address" {...register('email')} disabled={loading}/>
+                                    <Form.Label for="email" aria-label="email">Email</Form.Label>
+                                    <Form.Control className={inputClass} type="email" placeholder="Enter your email address" aria-required="true" aria-labelledby="email" aria-placeholder="Enter your email address" {...register('email')} disabled={loading}/>
                                     {errors?.email?.message && <ErrorMessage text={errors.email.message}/>}
                                 </Form.Group>
                                 <Form.Group className="mb-4" controlId="password">
-                                    <Form.Label>Password</Form.Label>
-                                    <Form.Control className={inputClass} type="password" placeholder="Enter your password" {...register('password')} disabled={loading}/>
+                                    <Form.Label for="password" aria-label="password">Password</Form.Label>
+                                    <Form.Control className={inputClass} type="password" placeholder="Enter your password" {...register('password')} disabled={loading} aria-required="true" aria-labelledby="password" aria-placeholder="Enter your password"/>
                                     {errors?.password?.message && <ErrorMessage text={errors.password.message}/>}
                                 </Form.Group>
                                 <Form.Group>
-                                    <Button className="w-100 fw-semibold" variant="primary" type="submit" disabled={loading}>Login</Button>
+                                    <Button className="w-100 fw-semibold" variant="primary" type="submit" disabled={loading} role="button">Login</Button>
                                 </Form.Group>
                             </Form>
                         </Col>
@@ -105,7 +112,7 @@ const LoginScreen = () => {
                     <Row className="mt-4">
                         <Col>
                             <p className="mb-1">Not signup yet ?</p>
-                            <Link to="/signup" className="text-decoration-none">Create account</Link>
+                            <Link to="/signup" className="text-decoration-none" aria-label="Create account">Create account</Link>
                         </Col>
                     </Row>
                 </Col>
