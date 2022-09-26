@@ -97,7 +97,7 @@ const LoadingIndividualBlogPosts = (navigate) => {
         }
       : null;
     ApiService.getRequest(
-      `v1/post/by-author/?skip=${skip}&limit=${limit}`,
+      `/v1/post/by-author/?skip=${skip}&limit=${limit}`,
       headersInfo
     )
       .then((res) => res.data)
@@ -108,8 +108,12 @@ const LoadingIndividualBlogPosts = (navigate) => {
         const errMessage = err?.response?.data?.message
           ? err.response.data.message
           : err.message;
-        if (errMessage === "jwt expired") {
+        const statusCode = err?.response?.status
+        if (statusCode === 401 && errMessage === "jwt expired") {
           handleRefreshToken(userInfo?.refreshToken, () => getAllPosts(skip, limit));
+        } else if (statusCode === 401) {
+          appContext.setCurrentUser(null);
+          navigate("/login");
         } else {
           setError(errMessage);
         }
