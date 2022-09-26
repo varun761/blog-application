@@ -60,7 +60,7 @@ const LoadingIndividualBlogPosts = (navigate) => {
         }
       : null;
     ApiService.postRequest(
-      "v1/post/update-visibility",
+      "/v1/post/update-visibility",
       {
         postId,
         visibility
