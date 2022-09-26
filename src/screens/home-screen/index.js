@@ -84,7 +84,7 @@ const HomeScreen = () => {
                         <Link to={`/post/${el._id}`}>{el.title}</Link>
                       </Card.Title>
                       <Card.Text className="post-description mb-3">
-                        {el?.description}
+                        {el?.description?.replace( /(<([^>]+)>)/ig, '')}
                       </Card.Text>
                       <Row>
                         <Col>
