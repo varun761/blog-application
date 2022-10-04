@@ -7,6 +7,7 @@ import {
   Spinner,
   Form,
   FormCheck,
+  Nav,
 } from "react-bootstrap";
 import moment from "moment";
 import ErrorMessage from "../../components/error-message";
@@ -277,8 +278,8 @@ const PostScreen = () => {
                         {moment(el.created_at).format("DD-MM-YYYY hh:mm:ss")}
                       </td>
                       <td>
-                        <Button variant="link">View</Button>
-                        <Button variant="link">Edit</Button>
+                        <Nav.Link target="_blank" href={`/post/${el._id}`} style={{ display: 'inline-block', marginRight: '10px'}}>View</Nav.Link>
+                        <Button variant="link" onClick={() => navigator(`/posts/edit/${el._id}`)}>Edit</Button>
                         <Button variant="link">Delete</Button>
                       </td>
                     </tr>
@@ -287,9 +288,13 @@ const PostScreen = () => {
             </Table>
           </Col>
             <Row>
-              {!loading && data?.total && (
+              {!loading && data?.total ? (
                 <Col>
                   <p>{currentPage * itemPerPage < data?.total ? (currentPage * itemPerPage) : data?.total} - {data?.total} records</p>
+                </Col>
+              ): (
+                <Col>
+                  <p>0 - 0 records</p>
                 </Col>
               )}
               <Col xs={6} md={4}>

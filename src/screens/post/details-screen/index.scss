@@ -1,0 +1,26 @@
+.details-sidebar {
+    position: fixed;
+    background: #fff;
+    right: 0;
+    overflow-y: scroll;
+    height: calc(100% - 85px);
+    border-left: 1px solid #000;
+}
+
+
+@mixin postTitle {
+    font-weight: 300;
+    text-transform: capitalize;
+}
+
+.recent-posts-section {
+    .post-title {
+        @include postTitle;
+    }
+}
+
+.post-details {
+    .post-title {
+        @include postTitle;
+    }
+}

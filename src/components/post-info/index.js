@@ -9,8 +9,8 @@ const PostInfo = ({ list }) => {
         if (indexed % 2 === 0 || indexed % 3 === 0) {
           return (
             <>
-              <li className="dot">.</li>
-              <li>{el}</li>
+              <li className="dot" key={`dot_${indexed}`}>.</li>
+              <li key={`post_info_${indexed}`}>{el}</li>
             </>
           );
         }

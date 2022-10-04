@@ -43,6 +43,7 @@ function App() {
             <Route exact path="dashboard" element={<DashboardScreen/>}/>
             <Route exact path="posts" element={<PostScreen/>}/>
             <Route path="posts/create" element={<PostCreateScreen/>}/>
+            <Route path="posts/edit/:id" element={<PostCreateScreen/>}/>
             <Route exact path="login" element={<LoginScreen/>}/>
             <Route exact path="signup" element={<SignupScreen/>}/>
           </Routes>

@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { Button, Col, Container, Form, Row, Alert } from "react-bootstrap"
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { ArrowLeft } from 'react-bootstrap-icons';
@@ -18,13 +18,13 @@ const schema = yup.object({
 });
 
 const LoginScreen = () => {
-    const location = useLocation()
     const navigate = useNavigate()
     const appContext = useContext(AppContext)
     const [apiError, setApiError] = useState(null)
     const [loading, setLoading] = useState(false)
+    const [disableForm, setDisableForm] = useState(false)
     const inputClass = "px-3 py-2 bg-transparent"
-    const { register, handleSubmit, formState:{ errors }, reset } = useForm({
+    const { register, handleSubmit, formState:{ errors }, reset, watch } = useForm({
         resolver: yupResolver(schema),
         defaultValues: {
             email: null,
@@ -35,7 +35,17 @@ const LoginScreen = () => {
         if (appContext?.user) {
             navigate('/dashboard')
         }
-    }, [appContext])
+    }, [appContext, navigate])
+
+    useEffect(() => {
+        const subscription = watch(() => {
+            if (apiError) {
+                setApiError(false)
+                setDisableForm(false)
+            }
+        });
+        return () => subscription.unsubscribe();
+    }, [watch, apiError]);
     // useEffect(() => {
     //     if (apiError) {
     //         setTimeout(() => {
@@ -60,6 +70,7 @@ const LoginScreen = () => {
         .catch((err) => {
             const errMessage = err?.response?.data?.message ? err.response.data.message : err.message
             setApiError(errMessage)
+            setDisableForm(true)
         })
         .finally(() => {
             setLoading(false)
@@ -104,7 +115,7 @@ const LoginScreen = () => {
                                     {errors?.password?.message && <ErrorMessage text={errors.password.message}/>}
                                 </Form.Group>
                                 <Form.Group>
-                                    <Button className="w-100 fw-semibold" variant="primary" type="submit" disabled={loading} role="button">Login</Button>
+                                    <Button className="w-100 fw-semibold" variant="primary" type="submit" disabled={loading || disableForm} role="button">Login</Button>
                                 </Form.Group>
                             </Form>
                         </Col>

@@ -1,16 +1,19 @@
 import { useEffect } from "react";
 import { useMemo, useState } from "react";
-import { Container, Row, Col, Card } from "react-bootstrap";
-import { useParams } from "react-router-dom";
-import ContentLoader from "react-content-loader" 
+import { Container, Row, Col, Nav, Form, Button } from "react-bootstrap";
+import { useParams, Link } from "react-router-dom";
 import PostInfo from "../../../components/post-info";
 import BasicLayout from "../../../layouts/basic-layout";
 import ApiService from "../../../services/api-service";
+import commonUtil from "../../../utilities/common-util";
+import "./index.scss";
 const SideBarTitle = ({ title }) => {
   return (
     <Row className="mb-4">
-      <Col className="border border-secondary py-2">
-        <h5 className="mb-0">{title}</h5>
+      <Col>
+        <div className="border border-secondary border-top-0 border-start-0 border-end-0 py-2">
+          <h5 className="mb-0">{title}</h5>
+        </div>
       </Col>
     </Row>
   );
@@ -18,20 +21,27 @@ const SideBarTitle = ({ title }) => {
 
 const LoadingBlogPosts = () => {
   const [error, setError] = useState(null);
-  const [post, setPost] = useState([]);
+  const [post, setPost] = useState(null);
   const data = useMemo(() => post, [post]);
+  const [recentPosts, setRecentPosts] = useState([]);
+  const recent_posts_data = useMemo(() => recentPosts, [recentPosts]);
   const [loading, setLoading] = useState(true);
   const getPostDetails = (id) => {
     setError(null);
     setLoading(true);
-    ApiService.getRequest(`/v1/post/${id}`)
+    ApiService.getRequest(`/v1/post/single/${id}`)
       .then((res) => res.data)
       .then((res) => {
-        const { post } = res;
+        const { post, recent_posts } = res;
         if (post) {
           setPost(post);
         } else {
           setPost(null);
+        }
+        if (recent_posts) {
+          setRecentPosts(recent_posts);
+        } else {
+          setRecentPosts([]);
         }
       })
       .catch((err) => {
@@ -43,93 +53,150 @@ const LoadingBlogPosts = () => {
   return {
     error,
     data,
+    recent_posts_data,
     loading,
     getPostDetails,
   };
 };
 
-const RecentPostsCard = () => {
+const RecentPostsCard = ({ _id, title, description, author, createdDate }) => {
+  const getRandomColor = () => {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
   return (
-    <Row>
-      <Card className="mb-3">
-        <Card.Body>
+    <Row key={`_recent_posts_${_id}`} className="mb-3">
+      <Col>
+        <div className="border border-secondary rounded d-block recent-posts-section">
           <Row>
-            <Col xs={12} md={3}>
-              Image
+            <Col xs={8} md={9} className="pt-3 d-flex justify-content-center flex-column">
+              <Nav.Link as={Link} to={`/post/${_id}`}><h5 className="mb-2 px-2 post-title">{title}</h5></Nav.Link>
+              <p className="mb-2 px-2 post-description">{description.replace(/<[^>]*>?/gm, "")}</p>
+              <div className="px-2 post-information"><PostInfo list={[author, commonUtil.dateDifference(createdDate)]}/></div>
             </Col>
-            <Col>
-              <h5 className="mb-2">Post Title</h5>
-              <p className="mb-2">Post content</p>
-              <small>Varun . 6 days ago </small>
+            <Col xs={4} md={3} className="border border-secondary border-end-0 border-top-0 border-bottom-0" style={{paddingLeft: 0}}>
+              <div className="d-flex align-items-center justify-content-center rounded-right w-100 h-100 font-weight-bolder text-light" style={{ backgroundColor: getRandomColor()}}>{title.slice(0, 2).toUpperCase()}</div>
             </Col>
           </Row>
-        </Card.Body>
-      </Card>
+        </div>
+      </Col>
     </Row>
   );
 };
 const PostDetailsScreen = () => {
-  const { data, loading, getPostDetails } = LoadingBlogPosts()
-  const params = useParams()
+  const { data, loading, getPostDetails, recent_posts_data } =
+    LoadingBlogPosts();
+  const params = useParams();
+  const { id } = params;
   useEffect(() => {
-    const { id } = params
     if (id) {
-      getPostDetails(id)
+      getPostDetails(id);
     }
-  }, [])
+  }, [id]);
   return (
     <BasicLayout>
       <Container fluid>
-          <Row>
-            {!loading ? (
-              <Col className="py-4 px-4">
-                <h1 className="mb-3">{data?.title}</h1>
-                <PostInfo list={[data?.author?.name, `Likes: ${data?.likes_count}`]} />
-                <div dangerouslySetInnerHTML={{__html: data?.description}}></div>
-              </Col>
-            ) : (
-              <Col className="py-4 px-4">
-                <ContentLoader viewBox="0 0 200 110">
-                  <rect x="0" y="0" width="100%" height="20" />
-                  <rect x="0" y="23" width="100%" height="10" />
-                  <rect x="0" y="36" width="100%" height="60" />
-                </ContentLoader>
-              </Col>
-            )}
-            <Col
-              md={4}
-              className="border border-secondary border-top-0 border-end-0 border-bottom-0 pt-4"
-            >
-              <aside className="pb-3 px-3">
-                <SideBarTitle title="About Author" />
-                <Row className="mb-3">
-                  <Col>
-                    <b>Varun Sharma</b>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <PostInfo list={["Posts: 0", "Followers: 0"]} />
-                  </Col>
-                </Row>
-                <Row className="mb-3">
-                  <Col>
-                    <b>About Me</b>
-                  </Col>
-                </Row>
-                <Row className="mb-3">
-                  <Col>
-                    <p className="font-weight-light">Hello loerlsldsda sdadasd sdasdsad dasdasdas dsada</p>
-                  </Col>
-                </Row>
-                <SideBarTitle title="Most Recent Posts" />
-                <RecentPostsCard />
-                <RecentPostsCard />
-                <RecentPostsCard />
-                <RecentPostsCard />
-              </aside>
+        <Row className="post-details">
+          {!loading && data ? (
+            <Col xs={12} md={8} className="py-4 px-4">
+              <Row>
+                <Col>
+                  <h1 className="mb-3 post-title">{data?.title}</h1>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <PostInfo
+                    list={[data?.author?.name, `Likes: ${data?.likes_count}`]}
+                  />
+                </Col>
+              </Row>
+              <Row className="mb-3">
+                <Col>
+                  <div
+                    dangerouslySetInnerHTML={{ __html: data?.description }}
+                  ></div>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <h5>Comments</h5>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Form>
+                    <Form.Group className="mt-3">
+                      <Form.Control as="textarea" row={3} />
+                    </Form.Group>
+                    <Form.Group className="mt-3">
+                      <Button>Submit</Button>
+                    </Form.Group>
+                  </Form>
+                </Col>
+              </Row>
             </Col>
-          </Row>
+          ) : (
+            <Col className="py-4 px-4">Loading....</Col>
+          )}
+          <Col
+            md={4}
+            className="details-sidebar pt-4"
+          >
+            <aside className="pb-3 px-3">
+              <SideBarTitle title="About Author" />
+              <Row className="mb-3">
+                <Col>
+                  {data && data?.author?.name && <b>{data?.author?.name}</b>}
+                </Col>
+              </Row>
+              <Row className="mb-3">
+                <Col>
+                  <PostInfo
+                    list={[
+                      `Likes: ${data && data?.likes_count}`,
+                      `Followers: ${data && data?.likes_count}`,
+                    ]}
+                  />
+                </Col>
+              </Row>
+              {data?.author?.about_me && (
+                <>
+                  <Row className="mb-3">
+                    <Col>
+                      <b>About Me</b>
+                    </Col>
+                  </Row>
+                  <Row className="mb-3">
+                    <Col>
+                      <p className="font-weight-light">
+                        {data?.author?.about_me}
+                      </p>
+                    </Col>
+                  </Row>
+                </>
+              )}
+              <SideBarTitle title="Most Recent Posts" />
+              {recent_posts_data && recent_posts_data.length > 0 ? (
+                recent_posts_data.map((el, ind) => (
+                  <RecentPostsCard
+                    _id={el._id}
+                    title={el.title}
+                    description={el.description}
+                    author={el.author.name}
+                    createdDate={el.created_at}
+                  />
+                ))
+              ) : (
+                <p>No Recent Posts</p>
+              )}
+            </aside>
+          </Col>
+        </Row>
       </Container>
     </BasicLayout>
   );

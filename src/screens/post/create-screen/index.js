@@ -12,7 +12,7 @@ import DashboardLayout from "../../../layouts/dashboard-layout";
 import './index.scss'
 import ErrorMessage from "../../../components/error-message";
 import AppContext from "../../../context/app-context";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ApiService from "../../../services/api-service";
 
 const initialState = EditorState.createEmpty();
@@ -27,6 +27,8 @@ const schema = yup.object({
 // hanlders
 const SavingIndividualPost = (navigate) => {
   const appContext = useContext(AppContext);
+  const params = useParams();
+  const { id } = params;
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const refreshToken = (refresh_token) => {
@@ -71,7 +73,7 @@ const SavingIndividualPost = (navigate) => {
       headersInfo
     )
       .then(() => {
-        navigate.push('/posts')
+        navigate('/posts')
       })
       .catch(async (err) => {
         const errMessage = err?.response?.data?.message
@@ -183,8 +185,8 @@ const PostCreateScreen = () => {
               </Row>
               <Row className="mb-3">
                   <Form.Group>
-                      <Form.Check type="radio" value="public" label="Public" checked={getValues('visibility') === 'public'} onChange={(e) => setValue('visibility', e.target.value)} disabled={loading}/>
-                      <Form.Check type="radio" value="private" label="Private" checked={getValues('visibility') === 'private'} onChange={(e) => setValue('visibility', e.target.value)} disabled={loading}/>
+                      <Form.Check type="radio" value="public" label="Public" checked={getValues('visibility') === 'public'} id="public_visible" onChange={(e) => setValue('visibility', e.target.value, { shouldValidate: true, shouldDirty: true, shouldTouch: true })} disabled={loading}/>
+                      <Form.Check type="radio" value="private" label="Private" checked={getValues('visibility') === 'private'} id="private_visible" onChange={(e) => setValue('visibility', e.target.value, { shouldValidate: true, shouldDirty: true, shouldTouch: true })} disabled={loading}/>
                   </Form.Group>
                   {errors?.visibility?.message && <ErrorMessage text={errors.visibility.message}/>}
               </Row>
@@ -195,7 +197,7 @@ const PostCreateScreen = () => {
                 <Row>
                   <Col className="position-relative">
                     <CloseButton className="delete-image" onClick={() => coverImageValueHandler(null)} disabled={loading}/>
-                    <div className="photo-frame" style={{ height: displayImage ? 'auto' : '200px' }}>
+                    <div className="photo-frame" style={{ height: displayImage ? 'auto' : '200px', maxHeight: '350px', maxWidth: '350px' }}>
                       {displayImage && <div role="presentation" onClick={() => setViewImageModel(true)}><Image src={displayImage} fluid/></div>}
                     </div>
                   </Col>
@@ -222,7 +224,7 @@ const PostCreateScreen = () => {
           <Modal.Title>Cover Image</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div style={{ maxHeight: '350px', overflow: 'hidden'}}>
+          <div style={{ maxHeight: '450px', overflow: 'hidden', maxWidth: '450px', margin: '0 auto'}}>
             <Image src={displayImage} fluid/>
           </div>
         </Modal.Body>
