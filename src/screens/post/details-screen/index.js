@@ -59,7 +59,7 @@ const LoadingBlogPosts = () => {
   };
 };
 
-const RecentPostsCard = ({ _id, title, description, author, createdDate }) => {
+const RecentPostsCard = ({ _id, title, author, createdDate }) => {
   const getRandomColor = () => {
     var letters = '0123456789ABCDEF';
     var color = '#';
@@ -74,12 +74,11 @@ const RecentPostsCard = ({ _id, title, description, author, createdDate }) => {
         <div className="border border-secondary rounded d-block recent-posts-section">
           <Row>
             <Col xs={8} md={9} className="pt-3 d-flex justify-content-center flex-column">
-              <Nav.Link as={Link} to={`/post/${_id}`}><h5 className="mb-2 px-2 post-title">{title}</h5></Nav.Link>
-              <p className="mb-2 px-2 post-description">{description.replace(/<[^>]*>?/gm, "")}</p>
+              <Nav.Link as={Link} to={`/post/${_id}`}><h5 className="mb-2 px-2 post-title fw-semibold">{title}</h5></Nav.Link>
               <div className="px-2 post-information"><PostInfo list={[author, commonUtil.dateDifference(createdDate)]}/></div>
             </Col>
             <Col xs={4} md={3} className="border border-secondary border-end-0 border-top-0 border-bottom-0" style={{paddingLeft: 0}}>
-              <div className="d-flex align-items-center justify-content-center rounded-right w-100 h-100 font-weight-bolder text-light" style={{ backgroundColor: getRandomColor()}}>{title.slice(0, 2).toUpperCase()}</div>
+              <div className="d-flex align-items-center justify-content-center rounded-right w-100 h-100 fw-bolder text-light" style={{ backgroundColor: getRandomColor()}}>{title.slice(0, 2).toUpperCase()}</div>
             </Col>
           </Row>
         </div>
@@ -92,6 +91,7 @@ const PostDetailsScreen = () => {
     LoadingBlogPosts();
   const params = useParams();
   const { id } = params;
+  const textCenterClass = "text-center"
   useEffect(() => {
     if (id) {
       getPostDetails(id);
@@ -103,7 +103,7 @@ const PostDetailsScreen = () => {
         <Row className="post-details">
           {!loading && data ? (
             <Col xs={12} md={8} className="py-4 px-4">
-              <Row>
+              <Row className={textCenterClass}>
                 <Col>
                   <h1 className="mb-3 post-title">{data?.title}</h1>
                 </Col>
@@ -186,7 +186,6 @@ const PostDetailsScreen = () => {
                   <RecentPostsCard
                     _id={el._id}
                     title={el.title}
-                    description={el.description}
                     author={el.author.name}
                     createdDate={el.created_at}
                   />

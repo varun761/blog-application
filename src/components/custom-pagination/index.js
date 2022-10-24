@@ -1,6 +1,11 @@
 import { Button } from "react-bootstrap";
+import PropTypes from "prop-types";
 import "./index.scss";
 
+/**
+ * Pagination component
+ *
+ */
 const CustomPagination = ({ total, itemPerPage, onPageClick, activePage }) => {
   const totalPages = Math.ceil(total / itemPerPage);
   const pageItems = [];
@@ -52,6 +57,17 @@ const CustomPagination = ({ total, itemPerPage, onPageClick, activePage }) => {
     </ul>
   );
 };
+
+CustomPagination.propTypes = {
+  /** Total number of records */
+  total: PropTypes.number,
+  /** Current active page number */
+  activePage: PropTypes.number,
+  /** Items per page */
+  itemPerPage: PropTypes.number,
+  /** On page click event handler */
+  onPageClick: PropTypes.func
+}
 
 CustomPagination.defaultProps = {
     total: 0,
