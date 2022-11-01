@@ -21,32 +21,23 @@ const HomeScreen = () => {
   const [skip, setSkip] = useState(0);
   const [paginationLoading, setPaginationLoading] = useState(false);
   const [posts, setPosts] = useState([]);
+  const [total, setTotal] = useState(0);
   const [itemPerPage, setItemsPerPage] = useState(10);
 
-  const loadMoreCallback = useCallback(() => {
-    console.log('---skip----- :', skip)
-    console.log('---itemPerPage----- :', itemPerPage)
-    sendRequest({
-      skip,
-      itemPerPage,
-    });
-  }, [skip, itemPerPage, sendRequest]);
-
   useEffect(() => {
-    setPosts([]);
     sendRequest({
       skip,
       itemPerPage,
     });
-  }, []);
+  }, [skip, itemPerPage]);
 
   useEffect(() => {
     if (
       data &&
-      Object.keys(data).length > 0 &&
-      Object.keys(data).indexOf("posts") > -1
+      Object.keys(data).length > 0
     ) {
-      setPosts([...posts, ...data.posts]);
+      if (Object.keys(data).indexOf("posts") > -1) setPosts([...posts, ...data.posts]);
+      if (Object.keys(data).indexOf("total") > -1 && total === 0) setTotal(data.total);
       setPaginationLoading(false);
     }
     return () => true;
@@ -55,11 +46,7 @@ const HomeScreen = () => {
   const loadMoreData = () => {
     setPaginationLoading(true);
     const skipValue = skip + itemPerPage
-    console.log('skipValue ::: ', skipValue)
     setSkip(skipValue);
-    setTimeout(() => {
-      loadMoreCallback();
-    }, 1000)
   };
 
   return (
@@ -83,6 +70,8 @@ const HomeScreen = () => {
           <Row className="mt-5">
             {posts.map((el) => {
               let postedTime = Common.dateDifference(el.created_at);
+              const nameArray = el?.author?.name.split(' ')
+              const fullName = nameArray.length > 1 ? `${nameArray[0]} ${nameArray[1].slice(0, 1)}.` : nameArray[0]
               return (
                 <Col key={`post_${el._id}`} sm={3} className="blog-card">
                   <Card>
@@ -99,7 +88,7 @@ const HomeScreen = () => {
                       <Col xs={12} className="px-3">
                         <PostInfo
                           list={[
-                            el?.author?.name,
+                            fullName,
                             postedTime,
                             `Likes: ${el?.likes_count}`,
                           ]}
@@ -112,7 +101,14 @@ const HomeScreen = () => {
             })}
           </Row>
         )}
-        {!loading && !error && (
+        {total && posts ? (
+          <Row>
+            <Col className="text-right">
+              <p>Listed {posts && posts.length} - {total} articles</p>
+            </Col>
+          </Row>
+        ) : null}
+        {!loading && !error && !paginationLoading && total && posts && total !== posts.length && (
           <Row className="text-center">
             <Col>
               <Button onClick={loadMoreData} disabled={paginationLoading}>
