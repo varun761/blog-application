@@ -1,5 +1,5 @@
 import { Button } from "react-bootstrap";
-import PropTypes from "prop-types";
+import { number, func } from "prop-types";
 import "./index.scss";
 
 /**
@@ -60,13 +60,13 @@ const CustomPagination = ({ total, itemPerPage, onPageClick, activePage }) => {
 
 CustomPagination.propTypes = {
   /** Total number of records */
-  total: PropTypes.number,
+  total: number,
   /** Current active page number */
-  activePage: PropTypes.number,
+  activePage: number,
   /** Items per page */
-  itemPerPage: PropTypes.number,
+  itemPerPage: number,
   /** On page click event handler */
-  onPageClick: PropTypes.func
+  onPageClick: func
 }
 
 CustomPagination.defaultProps = {

@@ -1,10 +1,10 @@
-import PropTypes from 'prop-types'
+import { string } from 'prop-types'
 
 const ErrorMessage = ({ text }) => (<p className="text-danger mt-2">{text}</p>)
 
 ErrorMessage.propTypes = {
      /** Text message */
-    text: PropTypes.string
+    text: string
 }
 
 ErrorMessage.defaultProps = {

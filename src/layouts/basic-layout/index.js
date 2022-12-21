@@ -4,10 +4,9 @@ import AppContext from "../../context/app-context"
 import './index.scss'
 
 const BasicLayout = (props) => {
-    const appContext = useContext(AppContext)
     return (
         <>
-            <NavigationBar isAuth={appContext?.user}/>
+            <NavigationBar/>
             <section className="section">
                 {props.children}
             </section>

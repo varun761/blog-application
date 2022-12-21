@@ -1,6 +1,6 @@
+import { useContext, useEffect } from "react"
 import { Col, Container, Row, Nav } from "react-bootstrap"
-import { useContext } from "react"
-import { useLocation, Link } from "react-router-dom"
+import { useLocation, Link, useNavigate } from "react-router-dom"
 
 import NavigationBar from "../../components/navigation-bar"
 import AppContext from "../../context/app-context"
@@ -33,14 +33,21 @@ const DashboardLayout = ({
     children,
     links
 }) => {
-    const appContext = useContext(AppContext)
+    const navigate = useNavigate()
     const location = useLocation()
+    const appContext = useContext(AppContext)
     const currentBaseLocation = location.pathname.split('/').filter((el) => el)
     const defaultActiveKey = currentBaseLocation.length > 0 ? `/${currentBaseLocation[0]}` : '/dashboard'
     const linksMapping = links.length > 0 ? links : navLinks
+    useEffect(() => {
+        if (!appContext?.user) navigate('/login')
+    }, [])
+    useEffect(() => {
+        if (!appContext?.user) navigate('/login')
+    }, [appContext, navigate])
     return (
         <>
-            <NavigationBar isAuth={appContext?.user}/>
+            <NavigationBar/>
             <section className="section-dashboard">
                 <Container fluid>
                     <Row>

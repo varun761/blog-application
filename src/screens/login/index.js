@@ -46,13 +46,6 @@ const LoginScreen = () => {
         });
         return () => subscription.unsubscribe();
     }, [watch, apiError]);
-    // useEffect(() => {
-    //     if (apiError) {
-    //         setTimeout(() => {
-    //             setApiError(null)
-    //         }, 5000)
-    //     }
-    // }, [apiError])
     const handleSignIn = (values) => {
         setLoading(true)
         setApiError(null)
@@ -61,10 +54,6 @@ const LoginScreen = () => {
             const response = res.data || null
             if (response) {
                 appContext.setCurrentUser(response)
-                // localStorage.setItem('user', JSON.stringify(response))
-                setTimeout(() => {
-                    navigate('/dashboard')
-                }, 3000)
             }
         })
         .catch((err) => {
@@ -104,13 +93,13 @@ const LoginScreen = () => {
                     <Row>
                         <Col>
                             <Form onSubmit={handleSubmit(handleSignIn)}>
-                                <Form.Group className="mb-3" controlId="email">
-                                    <Form.Label for="email" aria-label="email">Email</Form.Label>
+                                <Form.Group className="mb-3">
+                                    <Form.Label htmlFor="email" aria-label="email">Email</Form.Label>
                                     <Form.Control className={inputClass} type="email" placeholder="Enter your email address" aria-required="true" aria-labelledby="email" aria-placeholder="Enter your email address" {...register('email')} disabled={loading}/>
                                     {errors?.email?.message && <ErrorMessage text={errors.email.message}/>}
                                 </Form.Group>
-                                <Form.Group className="mb-4" controlId="password">
-                                    <Form.Label for="password" aria-label="password">Password</Form.Label>
+                                <Form.Group className="mb-4">
+                                    <Form.Label htmlFor="password" aria-label="password">Password</Form.Label>
                                     <Form.Control className={inputClass} type="password" placeholder="Enter your password" {...register('password')} disabled={loading} aria-required="true" aria-labelledby="password" aria-placeholder="Enter your password"/>
                                     {errors?.password?.message && <ErrorMessage text={errors.password.message}/>}
                                 </Form.Group>

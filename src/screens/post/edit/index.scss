@@ -1,0 +1,27 @@
+.post-content-editor {
+    min-height: 350px;
+    padding: 10px;
+    background: #fff;
+    border: 1px solid #000;
+}
+.photo-frame {
+    border: 1px dotted #000;
+    max-height: 200px;
+    overflow: hidden;
+    margin-bottom: 15px;
+    position: relative;
+    display: flex;
+    img {
+        cursor: pointer;
+    }
+}
+.delete-image {
+    position: absolute;
+    right: 4px;
+    top: -8px;
+    z-index: 111;
+    font-size: 12px;
+    background-color: #f5f5f5;
+    opacity: 0.7;
+    border-radius: 10px;
+}

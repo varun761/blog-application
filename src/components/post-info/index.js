@@ -1,3 +1,4 @@
+import { array } from "prop-types";
 import "./index.scss";
 
 const PostInfo = ({ list }) => {
@@ -23,5 +24,9 @@ const PostInfo = ({ list }) => {
 PostInfo.defaultProps = {
   list: [],
 };
+
+PostInfo.propTypes = {
+  list: array
+}
 
 export default PostInfo;

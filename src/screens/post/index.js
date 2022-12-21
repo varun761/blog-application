@@ -6,7 +6,6 @@ import {
   Button,
   Spinner,
   Form,
-  FormCheck,
   Nav,
 } from "react-bootstrap";
 import moment from "moment";
@@ -37,7 +36,10 @@ const LoadingIndividualBlogPosts = (navigate) => {
   const handleRefreshToken = async (refreshTokenValue, cb) => {
     try {
       const refreshTokenResponse = await refreshToken(refreshTokenValue);
+      console.log('refreshTokenResponse :', refreshTokenResponse)
       const { token } = refreshTokenResponse ? refreshTokenResponse : {};
+      console.log('token :', token)
+
       if (token) {
         localStorage.setItem("user", JSON.stringify(refreshTokenResponse));
         cb();
@@ -75,6 +77,7 @@ const LoadingIndividualBlogPosts = (navigate) => {
         const errMessage = err?.response?.data?.message
           ? err.response.data.message
           : err.message;
+        console.log('errMessage :', errMessage)
         if (errMessage === "jwt expired") {
           handleRefreshToken(
             userInfo?.refreshToken,
@@ -132,9 +135,9 @@ const LoadingIndividualBlogPosts = (navigate) => {
 };
 
 const PostScreen = () => {
-  const navigator = useNavigate();
+  const navigate = useNavigate();
   const { error, data, loading, getAllPosts, handleChangeVisibility } =
-    LoadingIndividualBlogPosts(navigator);
+    LoadingIndividualBlogPosts(navigate);
   const [allChecked, setAllChecked] = useState(false);
   const [allSelectedId, setAllSelectedId] = useState([]);
   const [skip, setSkip] = useState(0);
@@ -144,6 +147,10 @@ const PostScreen = () => {
     setCurrentPage(1)
     getAllPosts(skip, itemPerPage);
   }, []);
+  useEffect(() => {
+    setCurrentPage(1)
+    getAllPosts(0, itemPerPage);
+  }, [itemPerPage])
   useEffect(() => {
     if (!loading) {
       setAllChecked(false);
@@ -184,7 +191,7 @@ const PostScreen = () => {
     setCurrentPage(value)
   }
   const handleCreatePost = () => {
-    navigator('/posts/create')
+    navigate('/posts/create')
   }
   return (
     <DashboardLayout>
@@ -279,7 +286,7 @@ const PostScreen = () => {
                       </td>
                       <td>
                         <Nav.Link target="_blank" href={`/post/${el._id}`} style={{ display: 'inline-block', marginRight: '10px'}}>View</Nav.Link>
-                        <Button variant="link" onClick={() => navigator(`/posts/edit/${el._id}`)}>Edit</Button>
+                        <Button variant="link" onClick={() => navigate(`/posts/edit/${el._id}`)}>Edit</Button>
                         <Button variant="link">Delete</Button>
                       </td>
                     </tr>
@@ -301,7 +308,7 @@ const PostScreen = () => {
                 <Row>
                   <Col xs={12} md={8} className="text-end"><label>Items per page :</label></Col>
                   <Col className="text-end">
-                    <select>
+                    <select onChange={({target}) => setItemsPerPage(parseInt(target.value))}>
                       <option>10</option>
                       <option>25</option>
                       <option>50</option>

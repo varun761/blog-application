@@ -1,7 +1,6 @@
-import moment from "moment"
+import moment from "moment";
 
-const singularPlural = (value, string) =>
-  value <= 1 ? string : `${string}s`;
+const singularPlural = (value, string) => (value <= 1 ? string : `${string}s`);
 
 const dateDifference = (value) => {
   const currentDate = moment();
@@ -45,7 +44,7 @@ const dateDifference = (value) => {
     "years"
   )} ago`;
 };
-
-export default {
-    dateDifference
+const CommonUtil = {
+  dateDifference,
 }
+export default CommonUtil;

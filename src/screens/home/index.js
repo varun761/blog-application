@@ -17,7 +17,7 @@ import "./index.scss";
 import PostInfo from "../../components/post-info";
 
 const HomeScreen = () => {
-  const { error, data, loading, sendRequest } = ApiHook("/v1/post/", "GET");
+  const { error, data, loading, sendRequest } = ApiHook();
   const [skip, setSkip] = useState(0);
   const [paginationLoading, setPaginationLoading] = useState(false);
   const [posts, setPosts] = useState([]);
@@ -25,7 +25,7 @@ const HomeScreen = () => {
   const [itemPerPage, setItemsPerPage] = useState(10);
 
   useEffect(() => {
-    sendRequest({
+    sendRequest("/v1/post/", "GET", {
       skip,
       itemPerPage,
     });

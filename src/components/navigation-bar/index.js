@@ -1,15 +1,18 @@
 import { useContext } from 'react'
-import { Container, Navbar, Nav, Image, NavDropdown } from "react-bootstrap";
+import { Container, Navbar, Nav, Image, NavDropdown, Form } from "react-bootstrap";
 import { useNavigate, Link } from "react-router-dom";
 import AppContext from "../../context/app-context";
+import { ThemeContext } from '../../context/theme-context';
+import ThemedButton from '../themed-button';
 import "./index.scss";
 
-const NavigationBar = ({ isAuth }) => {
+const NavigationBar = () => {
   const appContext = useContext(AppContext)
+  const themeContext = useContext(ThemeContext)
   const navigate = useNavigate();
   const logoutUser = () => {
     appContext.setCurrentUser(null)
-    navigate("/login");
+    // navigate("/login");
   };
   return (
     <Navbar className="navbar-content px-3 py-2" fixed="top" expand="lg">
@@ -23,25 +26,24 @@ const NavigationBar = ({ isAuth }) => {
             <Nav.Link as={Link} to="/">Home</Nav.Link>
           </Nav>
           <Nav>
-            {!isAuth && (<Nav.Link as={Link} to="/login">Login</Nav.Link>)}
-            {isAuth && (
+            {!appContext?.user && (<Nav.Link as={Link} to="/login">Login</Nav.Link>)}
+            {appContext?.user && (
               <>
                 <NavDropdown title="Accounts" id="collasible-nav-dropdown">
                   <NavDropdown.Item as={Link} to="/profile">My Profile</NavDropdown.Item>
-                  <NavDropdown.Item onClick={logoutUser}>Logout</NavDropdown.Item>
+                  <NavDropdown.Item onClick={() => logoutUser()}>Logout</NavDropdown.Item>
                 </NavDropdown>
                 <Nav.Link as={Link} to="/dashboard">Dashboard</Nav.Link>
               </>
             )}
           </Nav>
+          <Form>
+              <ThemedButton onClick={themeContext.toggleTheme}>Change Theme</ThemedButton>
+          </Form>
         </Navbar.Collapse>
       </Container>
     </Navbar>
   );
-};
-
-NavigationBar.defaultProps = {
-  isAuth: false,
 };
 
 export default NavigationBar;

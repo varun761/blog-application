@@ -13,12 +13,12 @@ import ApiService from "../services/api-service";
     sendRequest: Function to trigger request,
   }
  */
-const ApiHook = (url, method, headerParams = null, requestBody = null) => {
+const ApiHook = () => {
   const [error, setError] = useState(null);
   const [responseBody, setResponseBody] = useState({});
   const data = useMemo(() => responseBody, [responseBody]);
   const [loading, setLoading] = useState(true);
-  const sendRequest = (params = null) => {
+  const sendRequest = (url, method, headerParams = null, requestBody = null, params = null) => {
     setError(null);
     setLoading(true);
     let apiRequestHandler = null;
