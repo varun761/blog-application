@@ -273,7 +273,9 @@ const PostScreen = () => {
                           onChange={(e) => handleSingleRowSelect(e, el._id)}
                         />
                       </td>
-                      <td>{elIndex + 1}</td>
+                      <td>{(currentPage > 1 ?
+                        elIndex * (currentPage - 1) + itemPerPage
+                        : elIndex) + 1}</td>
                       <td>{el.title}</td>
                       <td>
                         {el.visibility
