@@ -13,7 +13,7 @@ import ApiService from "../services/api-service";
     sendRequest: Function to trigger request,
   }
  */
-const ApiHook = () => {
+const useApiHook = () => {
   const [error, setError] = useState(null);
   const [responseBody, setResponseBody] = useState({});
   const data = useMemo(() => responseBody, [responseBody]);
@@ -71,4 +71,4 @@ const ApiHook = () => {
   };
 };
 
-export default ApiHook;
+export default useApiHook;

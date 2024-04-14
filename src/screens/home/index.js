@@ -12,20 +12,20 @@ import { Link } from "react-router-dom";
 import NoImagePost from "../../assets/images/post_sample.jpg";
 import Common from "../../utilities/common-util";
 import BasicLayout from "../../layouts/basic-layout";
-import ApiHook from "../../hooks/api-hook";
+import useApiHook from "../../hooks/api-hook";
 import "./index.scss";
 import PostInfo from "../../components/post-info";
 
 const HomeScreen = () => {
-  const { error, data, loading, sendRequest } = ApiHook();
+  const { error, data, loading, sendRequest } = useApiHook();
   const [skip, setSkip] = useState(0);
   const [paginationLoading, setPaginationLoading] = useState(false);
   const [posts, setPosts] = useState([]);
   const [total, setTotal] = useState(0);
   const [itemPerPage, setItemsPerPage] = useState(10);
-
+  console.log('---home render--')
   useEffect(() => {
-    sendRequest("/v1/post/", "GET", {
+    sendRequest("/v1/post/", "GET", null, null, {
       skip,
       itemPerPage,
     });

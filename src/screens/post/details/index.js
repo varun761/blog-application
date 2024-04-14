@@ -102,17 +102,15 @@ const PostDetailsScreen = () => {
       <Container fluid>
         <Row className="post-details">
           {!loading && data ? (
-            <Col xs={12} md={8} className="py-4 px-4">
+            <Col xs={12} md={9} className="py-4 px-4">
               <Row className={textCenterClass}>
                 <Col>
                   <h1 className="mb-3 post-title">{data?.title}</h1>
                 </Col>
               </Row>
               <Row>
-                <Col>
-                  <PostInfo
-                    list={[data?.author?.name, `Likes: ${data?.likes_count}`]}
-                  />
+                <Col className="text-center my-3">
+                  Likes: {data?.likes_count}
                 </Col>
               </Row>
               <Row className="mb-3">
@@ -124,7 +122,7 @@ const PostDetailsScreen = () => {
               </Row>
               <Row>
                 <Col>
-                  <h5>Comments</h5>
+                  <h5 className="mb-0">Comments</h5>
                 </Col>
               </Row>
               <Row>
@@ -144,7 +142,7 @@ const PostDetailsScreen = () => {
             <Col className="py-4 px-4">Loading....</Col>
           )}
           <Col
-            md={4}
+            md={3}
             className="details-sidebar pt-4"
           >
             <aside className="pb-3 px-3">

@@ -1,18 +1,14 @@
 import { useContext } from 'react'
-import { Container, Navbar, Nav, Image, NavDropdown, Form } from "react-bootstrap";
-import { useNavigate, Link } from "react-router-dom";
+import { Container, Navbar, Nav, Image, NavDropdown } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import AppContext from "../../context/app-context";
-import { ThemeContext } from '../../context/theme-context';
-import ThemedButton from '../themed-button';
+// import ThemedButton from '../themed-button';
 import "./index.scss";
 
 const NavigationBar = () => {
   const appContext = useContext(AppContext)
-  const themeContext = useContext(ThemeContext)
-  const navigate = useNavigate();
   const logoutUser = () => {
     appContext.setCurrentUser(null)
-    // navigate("/login");
   };
   return (
     <Navbar className="navbar-content px-3 py-2" fixed="top" expand="lg">
@@ -37,9 +33,9 @@ const NavigationBar = () => {
               </>
             )}
           </Nav>
-          <Form>
+          {/* <Form>
               <ThemedButton onClick={themeContext.toggleTheme}>Change Theme</ThemedButton>
-          </Form>
+          </Form> */}
         </Navbar.Collapse>
       </Container>
     </Navbar>

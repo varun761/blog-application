@@ -5,12 +5,13 @@ import { ThemeContext } from "../../context/theme-context";
 class ThemedButton extends React.Component {
     render() {
         let props = this.props
-        let theme = this.context
+        let themeProperty = this.context
+        console.log('Theme :', themeProperty)
         return (
             <Button
                 {...props}
                 style={{
-                    background: theme.background
+                    ...themeProperty.theme
                 }}
             />
         )
